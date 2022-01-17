@@ -1,6 +1,5 @@
 import pickle
 import pandas as pd
-import numpy as np
 import timeit
 import os
 import json
