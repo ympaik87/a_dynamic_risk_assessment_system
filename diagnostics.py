@@ -11,21 +11,21 @@ with open('config.json', 'r') as f:
 
 dataset_csv_path = os.path.join(config['output_folder_path'])
 test_data_path = os.path.join(config['test_data_path'], 'testdata.csv')
-test_df = pd.read_csv(test_data_path, index_col=0)
 FEATURES = [
     'lastmonth_activity', 'lastyear_activity', 'number_of_employees'
 ]
 
 
-def model_predictions(dataset_df=test_df):
+def model_predictions(dataset_path=test_data_path):
     """
-    Function to get model predictions
+    Function to get model predictions.
     Read the deployed model and a test dataset, calculate predictions
     """
+    test_df = pd.read_csv(dataset_path, index_col=0)
     model_path = os.path.join(config['output_model_path'], 'trainedmodel.pkl')
     with open(model_path, 'rb') as modelf:
         model = pickle.load(modelf)
-    X_test = dataset_df[FEATURES]
+    X_test = test_df[FEATURES]
     # y_test = dataset_df['exited']
     y_preds = model.predict(X_test)
     return y_preds.tolist()
@@ -36,6 +36,7 @@ def dataframe_summary():
     Function to get summary statistics
     calculate summary statistics here
     """
+    test_df = pd.read_csv(test_data_path, index_col=0)
     X_test = test_df[FEATURES]
     X_test_desc = X_test.describe()
     res_li = []
@@ -47,6 +48,7 @@ def dataframe_summary():
 
 
 def missing_data():
+    test_df = pd.read_csv(test_data_path, index_col=0)
     total_count = len(test_df)
     res_li = []
     for col in FEATURES:
@@ -66,7 +68,7 @@ def execution_time():
         os.system(f'python {script_name}')
         exec_time = timeit.default_timer() - start_time
         result_li.append([script_name, str(round(exec_time, 2))])
-    return  result_li
+    return result_li
 
 
 def outdated_packages_list():
@@ -76,8 +78,10 @@ def outdated_packages_list():
     """
     cmd = subprocess.Popen(
         'pip list --outdated', shell=True, stdout=subprocess.PIPE)
+    outdated_return_li = []
     for line in cmd.stdout:
-        yield line
+        outdated_return_li.append(line)
+    return outdated_return_li
 
 
 if __name__ == '__main__':

@@ -16,10 +16,10 @@ score_path = os.path.join(config['output_model_path'], 'latestscore.txt')
 
 # function for deployment
 def store_model_into_pickle():
-    '''
+    """
     copy the latest pickle file, the latestscore.txt value,
     and the ingestfiles.txt file into the deployment directory
-    '''
+    """
     file_p_li = [ingested_path, model_path, score_path]
     for file_p in file_p_li:
         shutil.copy2(file_p, prod_deployment_path)

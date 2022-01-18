@@ -16,10 +16,10 @@ model_path = os.path.join(config['output_model_path'], 'trainedmodel.pkl')
 
 # Function for model scoring
 def score_model():
-    '''
+    """
     this function should take a trained model, load test data,
     and calculate an F1 score for the model relative to the test data
-    '''
+    """
     with open(model_path, 'rb') as modelf:
         model = pickle.load(modelf)
 
@@ -35,6 +35,8 @@ def score_model():
     score_path = os.path.join(config['output_model_path'], 'latestscore.txt')
     with open(score_path, 'w') as scoref:
         scoref.write(f'{f1_model}\n')
+
+    return f1_model
 
 
 if __name__ == '__main__':
