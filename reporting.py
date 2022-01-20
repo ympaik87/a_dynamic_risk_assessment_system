@@ -10,19 +10,19 @@ import os
 with open('config.json', 'r') as f:
     config = json.load(f)
 
-plot_path = os.path.join(config['output_model_path'], 'confusionmatrix.png')
 test_data_path = os.path.join(config['test_data_path'], 'testdata.csv')
 FEATURES = [
     'lastmonth_activity', 'lastyear_activity', 'number_of_employees'
 ]
 
 
-def score_model():
+def score_model(plot_fname='confusionmatrix.png'):
     '''
     Function for reporting.
     calculate a confusion matrix using the test data and the deployed model
     write the confusion matrix to the workspace
     '''
+    plot_path = os.path.join(config['output_model_path'], plot_fname)
     model_path = os.path.join(config['output_model_path'], 'trainedmodel.pkl')
     test_df = pd.read_csv(test_data_path, index_col=0)
     with open(model_path, 'rb') as modelf:

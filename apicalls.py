@@ -2,11 +2,11 @@ import json
 import os
 import requests
 
-#Specify a URL that resolves to your workspace
+# Specify a URL that resolves to your workspace
 URL = "http://127.0.0.1:8000"
 
 
-def run_api_calls():
+def run_api_calls(apireturns_fname='apireturns.txt'):
     pred_req_str = URL + "/prediction?datapath=testdata/testdata.csv"
     response1 = requests.get(pred_req_str).content
 
@@ -25,10 +25,10 @@ def run_api_calls():
     # write the responses to your workspace
     # write the combined outputs to a file call apireturns.txt.
 
-    with open("config.json", "r") as f:
-        config = json.load(f)
+    with open("config.json", "r") as file:
+        config = json.load(file)
     api_return_path = os.path.join(config["output_model_path"],
-                                   'apireturns.txt')
+                                   apireturns_fname)
     with open(api_return_path, "w") as file:
         file.write(responses)
 
